@@ -11,7 +11,6 @@ def update_target_network(q_network, target_q_network) :
 	for q_weight , target_q_weight in zip(q_network.weights , target_q_network.weights) :
 		target_q_weight.assign(TAU * q_weight + (1 - TAU) * target_q_weight) 
 
-
 def get_action(q_values , epsilon) : 
 	
 	if np.random.rand() < epsilon : 
@@ -39,7 +38,7 @@ def get_new_epsilon(epsilon) :
 	return max(MIN_EPSILON , EPSILON_DECAY_RATE * epsilon) 
                                                                  
 
-def print_episode_info(episode , latest_avg , num_avg_points) : 
+def print_episode_info(episode , num_avg_points , latest_avg ) : 
 		
 	end = "\n" if (episode + 1) % 100 == 0 else "\r" 
 	print(f"Episode {episode} | Total point average of the last 100 episodes: {latest_avg}" , end=end) 
