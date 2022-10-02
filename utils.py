@@ -2,6 +2,7 @@ import random
 import imageio 
 import numpy as np 
 import tensorflow as tf 
+import matplotlib.pyplot as plt 
 
 TAU = 1e-3
 MINIBATCH_SIZE = 64
@@ -44,6 +45,24 @@ def print_episode_info(episode , num_avg_points , latest_avg ) :
 	end = "\n" if (episode + 1) % 100 == 0 else "\r" 
 	print(f"Episode {episode + 1} | Total point average of the last 100 episodes: {latest_avg}" , end=end) 
 
+def plot_history(total_avg_points) : 
+
+	fig = plt.fig(figure=(10 , 7)) 
+	ax = fig.gca() 
+	ax.plot(total_avg_points , color="cyan") 
+	ax.plot(get_exp_weighted_avg(total_avg_points) , color="magenta") 
+	ax.set_xlabel("Episode")
+	ax.set_ylabel("Total Points") 
+	ax.set_facecolor("black") 
+
+def get_exp_weighted_avg(points , beta=0.9) : 
+	
+	avg = [0] 
+	for x in points : 
+		v = beta * avg[-1] + ( 1 - beta ) * x 
+		avg.append(v)
+	return avg 	
+	
 def make_video(filename , env , q_network , fps=30) : 
 
 	with imageio.get_writer(filename , fps=fps) as video : 
@@ -60,5 +79,4 @@ def make_video(filename , env , q_network , fps=30) :
 			state , _ , done , _ = env.step(action)			
 			frame = env.render(mode="rgb_array") 
 			video.append_data(frame) 
-
-		
+	
