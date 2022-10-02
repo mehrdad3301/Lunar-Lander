@@ -8,3 +8,9 @@ def update_target_network(q_network , target_q_network) :
 		target_q_weight.assign(TAU * q_weight + (1 - TAU) * target_q_weight) 
 
 
+def get_action(q_values , epsilon) : 
+	
+	if np.random.rand() < epsilon : 
+		return np.random.randint(q_values.shape[1]) 
+	return np.argmax(q_values.numpy()[0]) 
+
