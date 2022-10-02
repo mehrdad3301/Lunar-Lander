@@ -1,3 +1,4 @@
+import random 
 import numpy as np 
 import tensorflow as tf 
 
@@ -20,3 +21,15 @@ def check_update_conditions(timestep , num_steps_per_update , len_buffer) :
 	return (timestep + 1) % num_steps_per_update == 0 and \
 			len_buffer > MINIBATCH_SIZE 
 
+def get_expriences(memory_buffer) : 
+	
+	expriences = random.sample(memory_buffer , MINIBATCH_SIZE) 
+    states = tf.convert_to_tensor(np.array([e.state for e in experiences if e is not None]),dtype=tf.float32)                                         
+    actions = tf.convert_to_tensor(np.array([e.action for e in experiences if e is not None]), dtype=tf.float32)                                      
+    rewards = tf.convert_to_tensor(np.array([e.reward for e in experiences if e is not None]), dtype=tf.float32)                                      
+    next_states = tf.convert_to_tensor(np.array([e.next_state for e in experiences if e is not None]),dtype=tf.float32)                               
+    done_vals = tf.convert_to_tensor(np.array([e.done for e in experiences if e is not None]).astype(np.uint8),                                       
+                                     dtype=tf.float32)                                                                                                
+
+    return (states, actions, rewards, next_states, done_vals)                                                                                         
+                                                                 
