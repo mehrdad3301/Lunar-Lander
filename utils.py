@@ -1,4 +1,5 @@
 import random 
+import imageio 
 import numpy as np 
 import tensorflow as tf 
 
@@ -43,3 +44,21 @@ def print_episode_info(episode , num_avg_points , latest_avg ) :
 	end = "\n" if (episode + 1) % 100 == 0 else "\r" 
 	print(f"Episode {episode + 1} | Total point average of the last 100 episodes: {latest_avg}" , end=end) 
 
+def make_video(filename , env , q_network , fps=30) : 
+
+	with imageio.get_writer(filename , fps=fps) as video : 
+		
+		state = env.reset() 
+		frame = env.render(mode="rgb_array") 	
+		video.append_data(frame)	
+		done = False 
+
+		while not done :
+
+			q_vals = q_network(state.reshape(1 , -1)) 
+			action = get_action(q_vals , epsilon=0.0) 
+			state , _ , done , _ = env.step(action)			
+			frame = env.render(mode="rgb_array") 
+			video.append_data(frame) 
+
+		
