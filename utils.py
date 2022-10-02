@@ -41,5 +41,5 @@ def get_new_epsilon(epsilon) :
 def print_episode_info(episode , num_avg_points , latest_avg ) : 
 		
 	end = "\n" if (episode + 1) % 100 == 0 else "\r" 
-	print(f"Episode {episode} | Total point average of the last 100 episodes: {latest_avg}" , end=end) 
+	print(f"Episode {episode + 1} | Total point average of the last 100 episodes: {latest_avg}" , end=end) 
 
