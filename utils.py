@@ -1,8 +1,10 @@
+import base64
 import random 
 import imageio 
 import numpy as np 
 import tensorflow as tf 
 import matplotlib.pyplot as plt 
+import IPython
 
 TAU = 1e-3
 MINIBATCH_SIZE = 64
@@ -46,14 +48,14 @@ def print_episode_info(episode , num_avg_points , latest_avg ) :
 	print(f"Episode {episode + 1} | Total point average of the last 100 episodes: {latest_avg}" , end=end) 
 
 def plot_history(total_avg_points) : 
-
-	fig = plt.fig(figure=(10 , 7)) 
-	ax = fig.gca() 
-	ax.plot(total_avg_points , color="cyan") 
-	ax.plot(get_exp_weighted_avg(total_avg_points) , color="magenta") 
-	ax.set_xlabel("Episode")
-	ax.set_ylabel("Total Points") 
-	ax.set_facecolor("black") 
+	
+	
+	plt.figure(figsize=(10 , 7)) 
+	plt.plot(total_avg_points , color="cyan") 
+	plt.plot(get_exp_weighted_avg(total_avg_points) , color="magenta") 
+	plt.xlabel("Episode")
+	plt.ylabel("Total Points") 
+	plt.gca().set_facecolor("black") 
 
 def get_exp_weighted_avg(points , beta=0.9) : 
 	
