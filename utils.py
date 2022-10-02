@@ -4,6 +4,8 @@ import tensorflow as tf
 
 TAU = 1e-3
 MINIBATCH_SIZE = 64
+EPSILON_DECAY_RATE = 0.995
+MIN_EPSILON = 0.01
 
 def update_target_network(q_network , target_q_network) : 
 	for q_weight , target_q_weight in zip(q_network , target_q_network) :
@@ -32,4 +34,7 @@ def get_expriences(memory_buffer) :
                                      dtype=tf.float32)                                                                                                
 
     return (states, actions, rewards, next_states, done_vals)                                                                                         
+
+def get_new_epsilon(epsilon) : 
+	return max(MIN_EPSILON , EPSILON_DECAY_RATE * epsilon) 
                                                                  
