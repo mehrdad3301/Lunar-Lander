@@ -52,7 +52,7 @@ def plot_history(total_avg_points) :
 	
 	plt.figure(figsize=(10 , 7)) 
 	plt.plot(total_avg_points , color="cyan") 
-	plt.plot(get_exp_weighted_avg(total_avg_points) , color="magenta") 
+	plt.plot(get_exp_weighted_avg(total_avg_points)[20:] , color="magenta") 
 	plt.xlabel("Episode")
 	plt.ylabel("Total Points") 
 	plt.gca().set_facecolor("black") 
